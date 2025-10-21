@@ -550,10 +550,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3808027739036642221, guid: 7a19f880c33d6a340ac648fce8627ade, type: 3}
-      propertyPath: swimDownForce
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 7876281606789880505, guid: 7a19f880c33d6a340ac648fce8627ade, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.228
