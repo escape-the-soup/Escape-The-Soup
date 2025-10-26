@@ -95,14 +95,22 @@ public class PlayerController2D : MonoBehaviour
         // Vertical: constant sink + hold W to push up
         // Floaty physics
         v += Vector2.down * sinkForce * Time.fixedDeltaTime;
+
         // Up movement (only if moving horizontally)
         if (swimUpHeld && Mathf.Abs(inputX) > 0.1f)
             v += Vector2.up * swimUpForce * Time.fixedDeltaTime;
         else if (swimUpHeld)
             v += Vector2.up * (swimUpForce * 0.9f) * Time.fixedDeltaTime; // slower vertical lift if stationary / only slow when not moving horizontally
+
         // Down movement (S key for faster sinking)
         if (swimDownHeld)
             v += Vector2.down * swimDownForce * Time.fixedDeltaTime;
+
+        // Extra vertical boost when tilting
+        if (Input.GetKey(KeyCode.UpArrow))
+            v += Vector2.up * (swimUpForce * 1.2f) * Time.fixedDeltaTime;
+        else if (Input.GetKey(KeyCode.DownArrow))
+            v += Vector2.down * (swimDownForce * 1.2f) * Time.fixedDeltaTime;
 
         // Clamp max speed
         v.x = Mathf.Clamp(v.x, -maxSpeed, maxSpeed);
