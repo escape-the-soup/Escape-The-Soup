@@ -7,6 +7,11 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseButton; // the 3-bar icon
     bool isPaused = false;
 
+    // AUDIO
+    [SerializeField] AudioClip clickSound;
+    [SerializeField] AudioClip resumeSound;
+    [SerializeField] AudioClip quitSound;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -15,6 +20,7 @@ public class PauseMenu : MonoBehaviour
 
     public void TogglePause()
     {
+        if (clickSound) AudioSource.PlayClipAtPoint(clickSound, Camera.main.transform.position);
         isPaused = !isPaused;
         pauseUI.SetActive(isPaused);
         pauseButton.SetActive(!isPaused);
@@ -27,15 +33,31 @@ public class PauseMenu : MonoBehaviour
         pauseUI.SetActive(false);
         pauseButton.SetActive(true);
         Time.timeScale = 1;
+        if (resumeSound) AudioSource.PlayClipAtPoint(resumeSound, Camera.main.transform.position);
     }
 
     public void QuitGame()
     {
+        StartCoroutine(PlaySoundAndQuit());
+        
+    }
+
+    private System.Collections.IEnumerator PlaySoundAndQuit()
+    {
         Time.timeScale = 1; // unpause before quitting
-        #if UNITY_EDITOR
+
+        if (quitSound)
+        {
+            AudioSource.PlayClipAtPoint(quitSound, Camera.main.transform.position);
+
+            // Wait for the exact duration of the audio clip
+            yield return new WaitForSeconds(quitSound.length);
+        }
+
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false; // stop play mode in editor
-        #else
+#else
         Application.Quit(); // actually quit the built game
-        #endif
+#endif
     }
 }

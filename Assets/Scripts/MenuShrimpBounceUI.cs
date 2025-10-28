@@ -8,6 +8,10 @@ public class MenuShrimpBounceUI : MonoBehaviour
     RectTransform rect;
     Vector2 dir;
 
+    // AUDIO
+    [SerializeField] AudioClip popSound;
+    [SerializeField] float popVolume = 0.6f;
+
     /*
     public float speed = 5f;
     Vector2 direction;
@@ -47,11 +51,15 @@ public class MenuShrimpBounceUI : MonoBehaviour
         // After horizontal bounce
         if (pos.x < -canvasSize.x / 2 + size.x / 2 || pos.x > canvasSize.x / 2 - size.x / 2)
         {
+            AudioSource.PlayClipAtPoint(popSound, Camera.main.transform.position, popVolume);
             dir.x = -dir.x;
             rect.localScale = new Vector3(-Mathf.Sign(dir.x) * Mathf.Abs(rect.localScale.x), rect.localScale.y, rect.localScale.z);
         }
         if (pos.y < -canvasSize.y / 2 + size.y / 2 || pos.y > canvasSize.y / 2 - size.y / 2)
+        {
+            AudioSource.PlayClipAtPoint(popSound, Camera.main.transform.position, popVolume);
             dir.y = -dir.y;
+        }
 
         rect.anchoredPosition = pos;
 

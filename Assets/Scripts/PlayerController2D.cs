@@ -27,6 +27,11 @@ public class PlayerController2D : MonoBehaviour
     [SerializeField] Collider2D attackZone;       // small child trigger
     [SerializeField] float attackTime = 0.15f;
 
+    // AUDIO
+    [SerializeField] AudioClip dashSound;
+    [SerializeField] AudioClip hurtSound;
+    [SerializeField] AudioClip swimSound;
+
     Rigidbody2D rb;
     SpriteRenderer sr;
     float inputX, inputY;
@@ -121,6 +126,7 @@ public class PlayerController2D : MonoBehaviour
         // Dash — disable normal control briefly and only move opposite of facing
         if (dashPressed && Time.time - lastDashTime >= dashCooldown)
         {
+            AudioSource.PlayClipAtPoint(dashSound, transform.position);
             StartCoroutine(DashCoroutine());
             lastDashTime = Time.time;
         }
@@ -155,6 +161,7 @@ public class PlayerController2D : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
+        // where groundCheck is
         if (!groundCheck) return;
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
